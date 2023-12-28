@@ -19,15 +19,15 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
    /**
    * TODO: Initialize PID coefficients (and errors, if needed)
    **/
-  Kp = Kpi;
-  Ki = Kii;
-  Kd = Kdi;
-  output_lim_max = output_lim_maxi;
-  output_lim_min = output_lim_mini;
-  i_err = 0.0;
-  d_err = 0.0;
-  p_err = 0.0;
-  p_err_prev = 0.0;
+  this->Kp = Kpi;
+  this->Ki = Kii;
+  this->Kd = Kdi;
+  this->output_lim_max = output_lim_maxi;
+  this->output_lim_min = output_lim_mini;
+  this->i_err = 0.0;
+  this->d_err = 0.0;
+  this->p_err = 0.0;
+  this->p_err_prev = 0.0;
 }
 
 
@@ -35,11 +35,16 @@ void PID::UpdateError(double cte) {
    /**
    * TODO: Update PID errors based on cte.
    **/
-  i_err = i_err + cte;
-  d_err = cte - p_err_prev;
+   this->i_err = this->i_err + cte*this->dt;
+   if (this->dt < 0.0000001) {
+      this->d_err = 0.0;
+   }
+   else {
+      this->d_err = (cte - this->p_err_prev) / this->dt;
+   }
 
-  p_err_prev = p_err;
-  p_err = cte;
+   this->p_err_prev = this->p_err;
+   this->p_err = cte;
 }
 
 double PID::TotalError() {
@@ -47,17 +52,17 @@ double PID::TotalError() {
    * TODO: Calculate and return the total error
     * The code should return a value in the interval [output_lim_mini, output_lim_maxi]
    */
-    double control;
+   double control;
 
-   control = -(Kp * p_err) - ((Kd * d_err) / dt) - (Ki * i_err * dt);
-
+   // control = -(Kp * p_err) - ((Kd * d_err) / dt) - (Ki * i_err * dt);
+   control = this->Kp * this->p_err + this->Kd * this->d_err + this->Ki * this->i_err;
 
    // If control exceeds limits, clamp it
-   if (control > output_lim_max) {
-      control = output_lim_max;
+   if (control > this->output_lim_max) {
+      control = this->output_lim_max;
    }
-   else if (control < output_lim_min){
-      control = output_lim_min;
+   else if (control < this->output_lim_min){
+      control = this->output_lim_min;
    }
 
     return control;
@@ -67,6 +72,6 @@ double PID::UpdateDeltaTime(double new_delta_time) {
    /**
    * TODO: Update the delta time with new value
    */
-  dt = new_delta_time;
-  return dt;
+  this->dt = new_delta_time;
+  return this->dt;
 }
