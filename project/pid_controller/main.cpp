@@ -223,7 +223,9 @@ int main ()
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
   PID pid_steer = PID();
-  pid_steer.Init(0.2, 0.001, 0.02, 1.2, -1.2);
+  // pid_steer.Init(0.2, 0.001, 0.02, 1.2, -1.2);
+  // pid_steer.Init(0.3, 0.00001, 0.5, 1.2, -1.2);
+  pid_steer.Init(0.08, 0.02, 0.008, 1.2, -1.2);
 
   // initialize pid throttle
   /**
@@ -315,6 +317,10 @@ int main ()
           // double xp = x_points[nx - 1];
           // int ny = y_points.size();
           // double yp = y_points[ny - 1];
+          // double dx = x_position - xp;
+          // double dy = y_position - yp;
+
+////////
           int n = v_points.size();
           double dist = 999999999999999;
           double cur_dist;
@@ -327,11 +333,11 @@ int main ()
               idx = i;
             }
           }
-          double xp = x_points[idx+1];
-          double yp = y_points[idx+1];
+          double xp = x_points[idx+2];
+          double yp = y_points[idx+2];
+          // double xp = x_points[x_points.size() - 1];
+          // double yp = y_points[y_points.size() - 1];
 
-          // double dx = x_position - xp;
-          // double dy = y_position - yp;
           double trajectory_heading = angle_between_points(x_position, y_position, xp, yp);
           error_steer = trajectory_heading - yaw;
 

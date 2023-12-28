@@ -36,7 +36,8 @@ void PID::UpdateError(double cte) {
    * TODO: Update PID errors based on cte.
    **/
    this->i_err = this->i_err + cte*this->dt;
-   if (this->dt < 0.0000001) {
+   // if (this->dt < 0.000000000000001) {
+   if (this->dt == 0.0) {
       this->d_err = 0.0;
    }
    else {
