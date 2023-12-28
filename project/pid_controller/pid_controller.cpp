@@ -27,7 +27,7 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
   this->i_err = 0.0;
   this->d_err = 0.0;
   this->p_err = 0.0;
-  this->p_err_prev = 0.0;
+  this->dt = 0.0;
 }
 
 
@@ -35,16 +35,14 @@ void PID::UpdateError(double cte) {
    /**
    * TODO: Update PID errors based on cte.
    **/
-   this->i_err = this->i_err + cte*this->dt;
-   // if (this->dt < 0.000000000000001) {
-   if (this->dt == 0.0) {
-      this->d_err = 0.0;
+   this->i_err += cte*this->dt;
+   if (this->dt > 0.0) {
+      this->d_err = (cte - this->p_err) / this->dt;
    }
    else {
-      this->d_err = (cte - this->p_err_prev) / this->dt;
+      this->d_err = 0.0;
    }
 
-   this->p_err_prev = this->p_err;
    this->p_err = cte;
 }
 
@@ -55,7 +53,6 @@ double PID::TotalError() {
    */
    double control;
 
-   // control = -(Kp * p_err) - ((Kd * d_err) / dt) - (Ki * i_err * dt);
    control = this->Kp * this->p_err + this->Kd * this->d_err + this->Ki * this->i_err;
 
    // If control exceeds limits, clamp it
