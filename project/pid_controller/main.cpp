@@ -224,8 +224,8 @@ int main ()
   **/
   PID pid_steer = PID();
   // pid_steer.Init(0.2, 0.001, 0.02, 1.2, -1.2);
-  // pid_steer.Init(0.11, 0.025, 0.1285, 1.2, -1.2);
-  // pid_steer.Init(0.3, 0.00001, 0.5, 1.2, -1.2);
+  // pid_steer.Init(0.1, 0.025, 0.12, 1.2, -1.2);
+  // pid_steer.Init(0.3, 0.0001, 0.5, 1.2, -1.2);
   // pid_steer.Init(0.08, 0.02, 0.008, 1.2, -1.2);
   // pid_steer.Init(0.35, 0.1, 0.09, 1.2, -1.2);
   // pid_steer.Init(0.4, 0.001, 0.8, 1.2, -1.2); //  Last one
@@ -240,8 +240,8 @@ int main ()
   // pid_steer.Init(2.0, 0.05, 0.0, 1.2, -1.2); //  Latest try
   // pid_steer.Init(0.2, 0.02, 0.08, 1.2, -1.2);
 
-  // pid_steer.Init(0.4, 0.001, 0.8, 1.2, -1.2); //  Last one
-  pid_steer.Init(0.2, 0.001, 0.0, 1.2, -1.2); 
+  // pid_steer.Init(0.42, 0.006, 0.8, 1.2, -1.2); //  Last one
+  pid_steer.Init(0.2, 0.001, 0.1, 1.2, -1.2); 
 
 
   // initialize pid throttle
@@ -250,12 +250,11 @@ int main ()
   **/
   PID pid_throttle = PID();
   // pid_throttle.Init(0.2, 0.001, 0.02, 1.0, -1.0);
-  // pid_throttle.Init(0.32, 0.01, 0.2, 1.0, -1.0);
+  // pid_throttle.Init(0.3, 0.01, 0.2, 1.0, -1.0);
   // pid_throttle.Init(0.2, 0.001, 0.06, 1.0, -1.0);
-  // pid_throttle.Init(0.29, 0.000945207, 0.00205, 1.0, -1.0);
 
   //  Second day starting point
-  pid_throttle.Init(0.2, 0.0009, 0.1, 1.0, -1.0);
+  pid_throttle.Init(0.2, 0.001, 0.1, 1.0, -1.0);
   
   // PID pid_steer = PID();
   // PID pid_throttle = PID();
@@ -333,6 +332,9 @@ int main ()
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
           // Find closest point in the trajectory array?
+          // I first find the closest point in the trajectory array to our actual position, and find the angle between this point and 
+          // our current position relative to the world coordinate frame.  The difference between this angle and our current heading
+          // is used as the error single for our steering PID controller.
           int n = x_points.size();
           double dist = 999999999999999.9;
           double cur_dist;
@@ -347,14 +349,6 @@ int main ()
           }
           double xp = x_points[idx];
           double yp = y_points[idx];
-          // double xp = x_points[idx+1];
-          // double yp = y_points[idx+1];
-          // double xp = x_points[idx+2];
-          // double yp = y_points[idx+2];
-          // double xp = x_points[x_points.size() - 1];
-          // double yp = y_points[y_points.size() - 1];
-          // double xp = x_points.back();
-          // double yp = y_points.back();
 
           double trajectory_heading = angle_between_points(x_position, y_position, xp, yp);
           error_steer = trajectory_heading - yaw;
@@ -393,11 +387,7 @@ int main ()
           // modify the following line for step 2
           // I calculated the throttle error like this because its the difference between the deired velocity value and the current velocity
           // which will be used in the PID controller as an error signal to correct the actual velocity towards its set point from the planner.
-          // int n = v_points.size();
-          // error_throttle = v_points[n-1] - velocity;
-          // error_throttle = v_points[idx+1] - velocity;
           error_throttle = v_points[idx] - velocity;
-          // error_throttle = v_points.back() - velocity;
 
           double throttle_output;
           double brake_output;
