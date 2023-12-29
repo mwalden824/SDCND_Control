@@ -35,14 +35,16 @@ There are 3 files that were required to be updated.
 ### pid_controller.h
 This is the header file for the PID controller implementation which contains the definition of the class and all the variables and methods that it will contain.
 ### pid_controller.cpp
-This is the implementation file which writes the C++ code for the definition of the PID controller class.
+This is the implementation file which contains the C++ code for the definition of the PID controller class.
 ### main.cpp
 This is the main file which includes the starting point for the compiled program and in particular, the calculations for the error signals for both the steering and throttle PID controllers.  This file also initializes the PID controllers and where the update methods for delta time, error and total error are called.  Many values for the gains were tested here in this file.
 
 
 ## Report
 I first implemented the PID controller class.  Both the .h file and .cpp file were written and the Project was compiled and then the simulation ran.  The following screenshot was taken:
+
 <img src="pid_controller/screenshot/NoPID.png" alt="No PID Controller">
+
 
 The TODOs in the main.cpp file were then updated and after running the simulation and plotting the results, the following plots are obtained:
 
