@@ -4,16 +4,16 @@ This project consisted of writing a PID control class in C++ and then using that
 This controller implementation was then used to control both the throttle and the steering angle of the vehicle.  The angle between the vehicle and the closest point on the trajectory to the car is found, and the difference between this angle and the actual heading of the vehicle is used as the error signal for the steering PID controller.  For the throttle controller, the velocity of the closest point in the trajectory to the vehicle is used to calculate the error signal by subtracting the current velocity from this value.
 
 ## Instructions
-To run the simulation go to the directory and build the project:
+To run the simulation, first install the dependencies:
 ```bash
-cd project/pid_controller
+cd project/
+./install-ubuntu.sh
+```
+Then go to the directory and build the project:
+```bash
+cd pid_controller/
 cmake .
 make
-```
-After, the compilation finishes successfully, install the dependencies:
-```bash
-cd ..
-./install-ubuntu.sh
 ```
 Then start the CARLA simulator in a separate terminal window:
 ```bash
