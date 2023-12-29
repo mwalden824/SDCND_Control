@@ -228,10 +228,21 @@ int main ()
   // pid_steer.Init(0.3, 0.00001, 0.5, 1.2, -1.2);
   // pid_steer.Init(0.08, 0.02, 0.008, 1.2, -1.2);
   // pid_steer.Init(0.35, 0.1, 0.09, 1.2, -1.2);
-  pid_steer.Init(0.4, 0.001, 0.8, 1.2, -1.2); //  Last one
+  // pid_steer.Init(0.4, 0.001, 0.8, 1.2, -1.2); //  Last one
   // pid_steer.Init(0.3, 0.0, 0.0, 1.2, -1.2); // Tuning, trying to find Pgain where steering begins to oscilate
   // pid_steer.Init(0.15, 0.02, 0.0, 1.2, -1.2); // Took half of Pgain and now increasing Igain until offset is canceled
   // pid_steer.Init(0.15, 0.02, 0.3, 1.2, -1.2); // Took half of Pgain and now increasing Igain until offset is canceled
+
+  //  Second day starting point
+  // pid_steer.Init(0.3, 0.001, 0.3, 1.2, -1.2); //  Latest try
+  // pid_steer.Init(0.3, 0.001, 0.9, 1.2, -1.2); //  Latest try
+  // pid_steer.Init(0.3, 0.001, 0.0, 1.2, -1.2); //  Latest try
+  // pid_steer.Init(2.0, 0.05, 0.0, 1.2, -1.2); //  Latest try
+  // pid_steer.Init(0.2, 0.02, 0.08, 1.2, -1.2);
+
+  // pid_steer.Init(0.4, 0.001, 0.8, 1.2, -1.2); //  Last one
+  pid_steer.Init(0.2, 0.001, 0.0, 1.2, -1.2); 
+
 
   // initialize pid throttle
   /**
@@ -240,9 +251,12 @@ int main ()
   PID pid_throttle = PID();
   // pid_throttle.Init(0.2, 0.001, 0.02, 1.0, -1.0);
   // pid_throttle.Init(0.32, 0.01, 0.2, 1.0, -1.0);
-  pid_throttle.Init(0.2, 0.001, 0.06, 1.0, -1.0);
+  // pid_throttle.Init(0.2, 0.001, 0.06, 1.0, -1.0);
   // pid_throttle.Init(0.29, 0.000945207, 0.00205, 1.0, -1.0);
 
+  //  Second day starting point
+  pid_throttle.Init(0.2, 0.0009, 0.1, 1.0, -1.0);
+  
   // PID pid_steer = PID();
   // PID pid_throttle = PID();
 
@@ -382,8 +396,8 @@ int main ()
           // int n = v_points.size();
           // error_throttle = v_points[n-1] - velocity;
           // error_throttle = v_points[idx+1] - velocity;
-          // error_throttle = v_points[idx] - velocity;
-          error_throttle = v_points.back() - velocity;
+          error_throttle = v_points[idx] - velocity;
+          // error_throttle = v_points.back() - velocity;
 
           double throttle_output;
           double brake_output;

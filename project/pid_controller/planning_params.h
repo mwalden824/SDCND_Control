@@ -33,7 +33,8 @@
   P_LOOKAHEAD_MIN / P_NUM_POINTS_IN_SPIRAL * 2  // m
 
 constexpr std::array<float, 3> CIRCLE_OFFSETS = {-1.0, 1.0, 3.0};  // m
-constexpr std::array<float, 3> CIRCLE_RADII = {1.5, 1.5, 1.5};     // m
+// constexpr std::array<float, 3> CIRCLE_RADII = {1.5, 1.5, 1.5};     // m
+constexpr std::array<float, 3> CIRCLE_RADII = {2.1, 2.1, 2.1};     // m
 
 constexpr double dt = 0.05;
 // Standard devaition parameters for x, x_dot, x_double_dot
